@@ -5,7 +5,7 @@
 echo "╔══╣ Install: RealSense ROS Wrapper (STARTING) ╠══╗"
 
 # 以前のパッケージを削除する
-dpkg -l | grep "realsense" | cut -d " " -f 3 | xargs sudo dpkg --purge
+dpkg -l | grep "realsense" | cut -d " " -f 3 | xargs -t sudo apt-get -y purge
 
 
 #サーバーの公開鍵の登録
