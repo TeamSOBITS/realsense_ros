@@ -3,15 +3,15 @@
 ## 参考DOCファイル（公式サイト）
 https://github.com/IntelRealSense/realsense-ros
 
+
 ## セットアップ手順（公式サイト）
-https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md
+https://github.com/IntelRealSense/realsense-ros/tree/ros1-legacy
 
 ## 動作環境
 - Ubuntu 20.04
 - ROS Noetic
 
 ## インストール
-
 ```
 cd ~/catkin_ws/src/
 git clone https://github.com/TeamSOBITS/realsense_ros
@@ -22,32 +22,23 @@ bash install.sh
 ## install.shの中身
 
 ``` bash
-# 以前のパッケージを削除する
-dpkg -l | grep "realsense" | cut -d " " -f 3 | xargs sudo dpkg --purge
+# Register the server's public key:
+$ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
 
+# Add the server to the list of repositories:
+$ sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
 
-#サーバーの公開鍵の登録
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+# Install the libraries (see section below if upgrading packages):
+$ sudo apt-get install librealsense2-dkms
+$ sudo apt-get install librealsense2-utils
 
-#リポジトリの登録
-sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
-sudo apt update
-
-#librealsenseのインストール
-sudo apt-get install -y \
-    librealsense2-dkms \
-    librealsense2-utils \
-    librealsense2-dev \
-    librealsense2-dbg
-
-#ddynamic_reconfigureをアップデート
-sudo apt install -y \
-     ros-$ROS_DISTRO-ddynamic-reconfigure
+# Optionally install the developer and debug packages:
+$ sudo apt-get install librealsense2-dev
+$ sudo apt-get install librealsense2-dbg
 ```
 
 ## realsense-viewer＆ROSパッケージの起動
 ``` bash
-#realsense-viewer
 realsense-viewer
 ```
 
