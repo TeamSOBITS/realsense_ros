@@ -73,7 +73,8 @@ aluminum peripherial evaluation case.
         </xacro:unless>     
       </visual>
       <collision>
-        <origin xyz="0 ${-d405_cam_depth_py} 0" rpy="0 0 0"/>
+        <origin xyz="${d405_zero_depth_to_glass + d405_glass_to_front - d405_cam_depth/2} ${-d405_cam_depth_py} 0" rpy="0 0 0"/>
+        <!-- <origin xyz="0 ${-d405_cam_depth_py} 0" rpy="0 0 0"/> -->
         <geometry>
           <box size="${d405_cam_depth} ${d405_cam_width} ${d405_cam_height}"/>
         </geometry>
