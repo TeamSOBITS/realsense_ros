@@ -197,9 +197,9 @@ ROS Wrapper for Intel&reg; RealSense&trade; Devicesが用意しているデフ�
 <!-- マイルストーン -->
 ## マイルストーン
 
-- [ ] OSS
-    - [ ] ドキュメンテーションの充実
-    - [-] install.shの更新
+- [x] OSS
+    - [x] ドキュメンテーションの充実
+    - [x] install.shの更新
 
 現時点のバッグや新規機能の依頼を確認するために[Issueページ][license-url] をご覧ください．
 
@@ -223,14 +223,12 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p> -->
 
 
-
 <!-- LICENSE -->
 <!-- ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more NOTErmation.
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p> -->
-
 
 
 <!-- 参考文献 -->
@@ -257,4 +255,4 @@ Distributed under the MIT License. See `LICENSE.txt` for more NOTErmation.
 [issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/realsense_ros.svg?style=for-the-badge
 [issues-url]: https://github.com/TeamSOBITS/realsense_ros/issues
 [license-shield]: https://img.shields.io/github/license/TeamSOBITS/realsense_ros.svg?style=for-the-badge
-[license-url]: https://github.com/TeamSOBITS/realsense_ros/blob/master/LICENSE
+[license-url]: LICENSE
