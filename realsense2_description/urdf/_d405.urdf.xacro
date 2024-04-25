@@ -13,7 +13,7 @@ aluminum peripherial evaluation case.
   <xacro:include filename="$(find realsense2_description)/urdf/_materials.urdf.xacro" />
 
   <xacro:macro name="sensor_d405" params="parent *origin name:=camera use_nominal_extrinsics:=false use_mesh:=true">
-    <xacro:property name="M_PI" value="3.1415926535897931" />
+    <xacro:property name="M_PI" value="3.14159" />
 
     <!-- The following values are approximate, and the camera node
      publishing TF values with actual calibrated camera extrinsic values -->
@@ -73,16 +73,19 @@ aluminum peripherial evaluation case.
         </xacro:unless>     
       </visual>
       <collision>
-        <origin xyz="0 ${-d405_cam_depth_py} 0" rpy="0 0 0"/>
+        <origin xyz="${d405_zero_depth_to_glass + d405_glass_to_front - d405_cam_depth/2} ${-d405_cam_depth_py} 0" rpy="0 0 0"/>
+        <!-- <origin xyz="0 ${-d405_cam_depth_py} 0" rpy="0 0 0"/> -->
         <geometry>
           <box size="${d405_cam_depth} ${d405_cam_width} ${d405_cam_height}"/>
         </geometry>
       </collision>
       <inertial>
         <!-- The following are not reliable values, and should not be used for modeling -->
-        <mass value="0.072" />
-        <origin xyz="0 0 0" />
-        <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257" />
+        <mass value="0.06" />
+        <origin xyz="${d405_zero_depth_to_glass + d405_glass_to_front - d405_cam_depth/2} ${-d405_cam_depth_py} 0" rpy="0 0 0"/>
+        <inertia ixx="${1/12*0.06*(d405_cam_depth**2+d405_cam_height**2)}" ixy="0.0" ixz="0.0"
+                 iyy="${1/12*0.06*(d405_cam_width**2+d405_cam_height**2)}" iyz="0.0"
+                 izz="${1/12*0.06*(d405_cam_depth**2+d405_cam_width**2)}" />
       </inertial>
     </link>
 
