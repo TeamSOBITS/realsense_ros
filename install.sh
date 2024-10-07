@@ -26,7 +26,8 @@ sudo apt-get install -y \
 # Install ROS dependencies
 sudo apt install -y \
      ros-$ROS_DISTRO-ddynamic-reconfigure \
-     ros-$ROS_DISTRO-imu-filter-madgwick
+     ros-$ROS_DISTRO-imu-filter-madgwick \
+     ros-$ROS_DISTRO-rgbd-launch
 
 
 echo "╚══╣ Install: RealSense ROS Wrapper (FINISHED) ╠══╝"
