@@ -5,10 +5,12 @@
 echo "╔══╣ Install: RealSense ROS 2 Wrapper (STARTING) ╠══╗"
 
 # Install librealsense2 debian package from Intel servers
-sudo apt install ros-$ROS_DISTRO-librealsense2*
+sudo apt update
+sudo apt install -y \
+   ros-$ROS_DISTRO-librealsense2*
 
 # Install Intel® RealSense™ ROS2 wrapper dependencies
-sudo apt-get update
+sudo apt update
 sudo apt install -y \
    ros-$ROS_DISTRO-eigenpy \
    ros-$ROS_DISTRO-cv-bridge \
