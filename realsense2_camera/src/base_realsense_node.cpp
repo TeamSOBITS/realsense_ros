@@ -125,6 +125,9 @@ BaseRealSenseNode::BaseRealSenseNode(rclcpp::Node& node,
     _is_accelerate_gpu_with_glsl_changed(false)
 #endif
 {
+    if (std::string(_node.get_namespace()).substr(1) == "") _namespace = "";
+    else _namespace = std::string(_node.get_namespace()).substr(1) + "/";
+
     if ( use_intra_process )
     {
         ROS_INFO("Intra-Process communication enabled");
