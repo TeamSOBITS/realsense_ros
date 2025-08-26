@@ -25,6 +25,8 @@ void BaseRealSenseNode::getParameters()
     std::string param_name;
 
     param_name = std::string("camera_name");
+    if (std::string(_node.get_namespace()).substr(1) == "") _namespace = "";
+    else _namespace = std::string(_node.get_namespace()).substr(1) + "/";
     _camera_name = _parameters->setParam<std::string>(param_name, "camera");
     _parameters_names.push_back(param_name);
 
@@ -80,7 +82,7 @@ void BaseRealSenseNode::getParameters()
 
     param_name = std::string("base_frame_id");
     _base_frame_id = _parameters->setParam<std::string>(param_name, DEFAULT_BASE_FRAME_ID);
-    _base_frame_id = (static_cast<std::ostringstream&&>(std::ostringstream() << _camera_name << "_" << _base_frame_id)).str();
+    _base_frame_id = (static_cast<std::ostringstream&&>(std::ostringstream() << _namespace << _camera_name << "_" << _base_frame_id)).str();
     _parameters_names.push_back(param_name);
 
 #if defined (ACCELERATE_GPU_WITH_GLSL)

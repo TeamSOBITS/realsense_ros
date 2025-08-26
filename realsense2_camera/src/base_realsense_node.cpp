@@ -125,6 +125,9 @@ BaseRealSenseNode::BaseRealSenseNode(rclcpp::Node& node,
     _is_accelerate_gpu_with_glsl_changed(false)
 #endif
 {
+    if (std::string(_node.get_namespace()).substr(1) == "") _namespace = "";
+    else _namespace = std::string(_node.get_namespace()).substr(1) + "/";
+
     if ( use_intra_process )
     {
         ROS_INFO("Intra-Process communication enabled");
@@ -845,7 +848,7 @@ void BaseRealSenseNode::SetBaseStream()
 void BaseRealSenseNode::publishPointCloud(rs2::points pc, const rclcpp::Time& t, const rs2::frameset& frameset)
 {
     std::string frame_id = OPTICAL_FRAME_ID(DEPTH);
-    _pc_filter->Publish(pc, t, frameset, std::string(_node.get_namespace()).substr(1) + "/" + frame_id);
+    _pc_filter->Publish(pc, t, frameset, frame_id);
 }
 
 

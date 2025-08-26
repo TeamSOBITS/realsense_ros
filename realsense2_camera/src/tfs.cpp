@@ -44,8 +44,8 @@ void BaseRealSenseNode::append_static_tf_msg(const rclcpp::Time& t,
 {
     geometry_msgs::msg::TransformStamped msg;
     msg.header.stamp = t;
-    msg.header.frame_id = std::string(_node.get_namespace()).substr(1) + "/" + from;
-    msg.child_frame_id = std::string(_node.get_namespace()).substr(1) + "/" + to;
+    msg.header.frame_id = from;
+    msg.child_frame_id = to;
 
     // Convert translation vector (x,y,z) (taken from camera extrinsics)
     // from optical cooridnates to ros coordinates
@@ -253,11 +253,8 @@ void BaseRealSenseNode::publishDynamicTransforms()
             rclcpp::Time t = _node.now();
             try
             {
-                for(auto& msg : _static_tf_msgs) {
+                for(auto& msg : _static_tf_msgs)
                     msg.header.stamp = t;
-                    msg.header.frame_id = std::string(_node.get_namespace()).substr(1) + "/" + msg.header.frame_id;
-                    msg.child_frame_id = std::string(_node.get_namespace()).substr(1) + "/" + msg.child_frame_id;
-                }
                 _dynamic_tf_broadcaster->sendTransform(_static_tf_msgs);
             }
             catch(const std::exception& e)
