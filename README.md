@@ -62,7 +62,7 @@ Intel&reg; RealSense&trade;が作成した[ROS Wrapper for Intel&reg; RealSense&
 | System  | Version |
 | ------------- | ------------- |
 | Ubuntu | 22.04 (Focal Fossa) |
-| ROS | Humble Hawksbill|
+| ROS 2 | Humble Hawksbill|
 | LibRealSense2 | v2.56.4 |
 | D400 Firmware | v5.15.0.2 |
 | 対応カメラ | D435i,D405などのD400シリーズ |
