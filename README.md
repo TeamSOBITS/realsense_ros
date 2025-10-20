@@ -28,12 +28,10 @@
     　<a href="#実行操作方法">実行・操作方法</a>
       <ul>
         <li><a href="#動作確認">動作確認</a></li>
-        <li><a href="#Rviz上の可視化">Rviz上の可視化</a></li>
-        <li><a href="#デモTracking">デモ：Tracking</a></li>
-        <li><a href="#デモRtabMap">デモ：RtabMap</a></li>
+        <li><a href="#カメラの起動">カメラの起動</a></li>
+        <li><a href="#他のプログラムからname_spaceやcamera_nameを変更したいとき">他のプログラムからname_spaceやcamera_nameを変更したいとき</a></li>
       </ul>
     </li>
-    <li>
     <li><a href="#マイルストーン">マイルストーン</a></li>
     <!-- <li><a href="#contributing">Contributing</a></li> -->
     <!-- <li><a href="#license">License</a></li> -->
@@ -101,7 +99,7 @@ Intel&reg; RealSense&trade;が作成した[ROS Wrapper for Intel&reg; RealSense&
 
 5. パッケージをコンパイルします．
    ```sh
-   colcon_wsへ移動
+   #colcon_wsへ移動
    $ colcon build
    ```
 
@@ -118,7 +116,7 @@ Intel&reg; RealSense&trade;が作成した[ROS Wrapper for Intel&reg; RealSense&
 1. 必要に応じて[rs_launch.launch](https://github.com/TeamSOBITS/realsense_ros/blob/humble-devel/realsense2_camera/launch/rs_launch.py)のパラメータを更新してください．
    ```python
     camera_name = 'camera'
-    robot_name = 'sobit_mini'
+    robot_name = 'D435i'
 
     configurable_parameters = [{'name': 'camera_name',   'default': camera_name, 'description': 'camera unique name'},
                               {'name': 'camera_namespace',  'default': robot_name, 'description': 'namespace for camera'},
@@ -157,37 +155,54 @@ Intel&reg; RealSense&trade;が作成した[ROS Wrapper for Intel&reg; RealSense&
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 
-### Rviz上の可視化
-実機を動かす前段階として，Rviz上でRealSense&trade;カメラを可視化し，カメラの構成を表示することができます．
+### カメラの起動
 
-```sh
-$ roslaunch realsense_description view_d405_model.launch
+1. [rs_launch.py](/realsense_ros/realsense2_camera/launch/rs_launch.py)というlaunchファイルを実行します．
+    ```sh
+    $ ros2 launch realsense2_camera rs_launch.py
+    ```
+
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
+
+
+### 他のプログラムからname_spaceやcamera_nameを変更したいとき
+1.launchファイル内で以下のような例で設定し起動すれば変更が可能です．
+```python
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from ament_index_python.packages import get_package_share_directory
+import os
+
+def generate_launch_description():
+    pkg_name = 'realsense2_camera'
+    robot_name = 'D435i'
+    camera_name = 'camera'
+    launch_file_path = os.path.join(
+        get_package_share_directory(pkg_name),
+        'launch',
+        'rs_launch.py'
+    )
+
+    included_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(launch_file_path),
+        launch_arguments={
+            'camera_namespace': robot_name,
+            'camera_name': camera_name
+        }.items()
+    )
+
+    return LaunchDescription([
+        included_launch,
+    ])
 ```
 
-
-<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
-
-
-### デモ：Tracking
-
-ROS Wrapper for Intel&reg; RealSense&trade; Devicesが用意しているデフォルトのTrackingのデモプログラムを実行できます．
-
-1. [rs_rtabmap.launch](realsense2_camera/launch/opensource_tracking.launch)というlaunchファイルを実行します．
-    ```sh
-    $ roslaunch realsense2_camera opensource_tracking.launch
-    ```
-
-<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
-
-
-### デモ：RtabMap
-
-ROS Wrapper for Intel&reg; RealSense&trade; Devicesが用意しているデフォルトのRtabMapのデモプログラムを実行できます．
-
-1. [rs_rtabmap.launch](realsense2_camera/launch/rs_rtabmap.launch)というlaunchファイルを実行します．
-    ```sh
-    $ roslaunch realsense2_camera rs_rtabmap.launch
-    ```
+2.コマンドから変更したいとき．
+```sh
+$ ros2 launch realsense2_camera rs_launch.py camera_namespace:=sobit_mini camera_name:=head_camera_base
+```
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
@@ -234,9 +249,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more NOTErmation.
 
 * [Intel&reg; RealSense&trade;](https://www.intelrealsense.com/)
 * [librealsense](https://github.com/IntelRealSense/librealsense)
-* [realsense-ros](https://github.com/IntelRealSense/realsense-ros/tree/ros1-legacy)
+* [realsense-ros](https://github.com/IntelRealSense/realsense-ros/tree/ros2-master)
 * [Intel&reg; RealSense&trade;のドキュメント](https://dev.intelrealsense.com/docs)
-* [ROS Noetic](http://wiki.ros.org/noetic)
+* [ROS Humble](https://docs.ros.org/en/humble/index.html)
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
