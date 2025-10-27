@@ -75,8 +75,8 @@ namespace realsense2_camera
     const double TF_PUBLISH_RATE = 0; // Static transform
     const double DIAGNOSTICS_PERIOD = 0.0;
 
-    const std::string IMAGE_QOS    = "SYSTEM_DEFAULT";
-    const std::string DEFAULT_QOS  = "DEFAULT";
+    const std::string IMAGE_QOS    = "SENSOR_DATA";
+    const std::string DEFAULT_QOS  = "SENSOR_DATA";
     const std::string HID_QOS         = "SENSOR_DATA";
 
     const bool HOLD_BACK_IMU_FOR_FRAMES = false;

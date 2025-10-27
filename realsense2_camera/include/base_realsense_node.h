@@ -62,7 +62,7 @@ using realsense2_camera_msgs::msg::Extrinsics;
 using realsense2_camera_msgs::msg::IMUInfo;
 using realsense2_camera_msgs::msg::RGBD;
 
-#define FRAME_ID(sip) (static_cast<std::ostringstream&&>(std::ostringstream() << _namespace << _camera_name << "_" << STREAM_NAME(sip) << "_frame")).str()
+#define FRAME_ID(sip) (static_cast<std::ostringstream&&>(std::ostringstream() << _namespace << _camera_name << "/_" << STREAM_NAME(sip) << "_frame")).str()
 #define IMU_FRAME_ID (static_cast<std::ostringstream&&>(std::ostringstream() << _namespace << _camera_name << "_imu_frame")).str()
 #define IMU_OPTICAL_FRAME_ID (static_cast<std::ostringstream&&>(std::ostringstream() << _namespace << _camera_name << "_imu_optical_frame")).str()
 #define OPTICAL_FRAME_ID(sip) (static_cast<std::ostringstream&&>(std::ostringstream() << _namespace << _camera_name << "_" << STREAM_NAME(sip) << "_optical_frame")).str()
