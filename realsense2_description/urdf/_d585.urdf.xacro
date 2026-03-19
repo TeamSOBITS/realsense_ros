@@ -78,7 +78,7 @@ aluminum peripherial evaluation case.
         <origin xyz="${d585_zero_depth_to_glass + d585_glass_to_front} ${-d585_cam_depth_py} 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
           <!-- <box size="${d585_cam_depth} ${d585_cam_width} ${d585_cam_height}"/> -->
-	        <mesh filename="package://realsense2_description/meshes/d585.stl" scale="0.001 0.001 0.001" />
+	        <mesh filename="file://$(find realsense2_description)/meshes/d585.stl" scale="0.001 0.001 0.001" />
         </geometry>
         <material name="aluminum"/>
       </visual>
@@ -240,4 +240,3 @@ aluminum peripherial evaluation case.
     -->
   </xacro:macro>
 </robot>
-
