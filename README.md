@@ -1,3 +1,4 @@
+<a name="readme-top"></a>
 
 <p align="center">
   <!-- Light mode -->
@@ -9,264 +10,85 @@
 </p>
 
 <p align="center">
-  ROS Wrapper for RealSense(TM) Cameras<br>
+  ROS Wrapper for RealSense&trade; Cameras<br>
   <a href="https://github.com/realsenseai/realsense-ros/releases">Latest release notes</a>
 </p>
 
 <hr>
 
-
-[![rolling][rolling-badge]][rolling]
-[![kilted][kilted-badge]][kilted]
-[![jazzy][jazzy-badge]][jazzy]
-[![iron][iron-badge]][iron]
-[![humble][humble-badge]][humble]
-[![foxy][foxy-badge]][foxy]
-[![ubuntu24][ubuntu24-badge]][ubuntu24]
-[![ubuntu22][ubuntu22-badge]][ubuntu22]
-[![ubuntu20][ubuntu20-badge]][ubuntu20]
-
-![GitHubWorkflowStatus](https://img.shields.io/github/actions/workflow/status/realsenseai/realsense-ros/main.yml?logo=github&style=flat-square)
-[![GitHubcontributors](https://img.shields.io/github/contributors/realsenseai/realsense-ros?style=flat-square)](CONTRIBUTING.md)
-[![License](https://img.shields.io/github/license/realsenseai/realsense-ros?style=flat-square)](LICENSE)
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![License][license-shield]][license-url]
 
 <hr>
 
-## Important Notice
 
-We are happy to announce that the RealSense GitHub repositories have been successfully migrated to the RealSenseAI organization.
-Please make sure to update your links to the new RealSenseAI organization for both cloning the repositories and accessing specific files within them.
+## Introduction
 
-[https://github.com/**IntelRealSense**/realsense-ros](https://github.com/IntelRealSense/realsense-ros) --> [https://github.com/**realsenseai**/realsense-ros](https://github.com/realsenseai/realsense-ros)
+This is the ROS Wrapper for RealSense&trade; Cameras.
 
-Note: A redirection from the previous name IntelRealSense is currently in place, but we cannot guarantee how long it will remain active. We recommend that all users update their references to point to the new GitHub location.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Table of contents
-  * [ROS1 and ROS2 legacy](#ros1-and-ros2-legacy)
-  * [Installation on Ubuntu](#installation-on-ubuntu)
-  * [Installation on Windows](#installation-on-windows)
-  * [ROS2 LifeCycleNode](#ros2-lifecyclenode)
-  * [Usage](#usage)
-     * [Starting the camera node](#start-the-camera-node)
-     * [Camera name and namespace](#camera-name-and-camera-namespace)
-     * [Parameters](#parameters)
-     * [ROS2-vs-Optical Coordination Systems](#ros2robot-vs-opticalcamera-coordination-systems)
-     * [TF from coordinate A to coordinate B](#tf-from-coordinate-a-to-coordinate-b)
-     * [Extrinsics from sensor A to sensor B](#extrinsics-from-sensor-a-to-sensor-b)
-     * [Topics](#published-topics)
-     * [RGBD Topic](#rgbd-topic)
-     * [RViz2 Plugin](#rviz2-plugin)
-     * [Metadata Topic](#metadata-topic)
-     * [Post-Processing Filters](#post-processing-filters)
-     * [Available Services](#available-services)
-     * [Available Actions](#available-actions)
-     * [Efficient intra-process communication](#efficient-intra-process-communication)
-     * [Logging](#logging)
-  * [ROS <-> MQTT Bridge Node](realsense2_ros_mqtt_bridge/README.md)
-  * [Contributing](CONTRIBUTING.md)
-  * [License](LICENSE)
 
-<hr>
+## Getting Started
 
-# ROS1 and ROS2 Legacy
+This section describes how to set up this repository.
 
-<details>
-  <summary>
-    ROS1 Wrapper for RealSense™ cameras
-  </summary>
-    ROS1 Wrapper for RealSense™ cameras is not supported anymore, since our developers team are focusing on ROS2 distro.<br>
-    For ROS1 wrapper, go to <a href="https://github.com/realsenseai/realsense-ros/tree/ros1-legacy">ros1-legacy</a> branch
-</details>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<details>
-   <summary>
-     Moving from <a href="https://github.com/realsenseai/realsense-ros/tree/ros2-legacy">ros2-legacy</a> to ros2-master
-  </summary>
 
-* Changed Parameters:
-    - **"stereo_module"**, **"l500_depth_sensor"** are replaced by **"depth_module"**
-    - For video streams: **\<module>.profile** replaces **\<stream>_width**, **\<stream>_height**, **\<stream>_fps**
-        - **ROS2-legacy (Old)**:
-          - ros2 launch realsense2_camera rs_launch.py depth_width:=640 depth_height:=480 depth_fps:=30.0 infra1_width:=640 infra1_height:=480 infra1_fps:=30.0
-        - **ROS2-master (New)**:
-          - ros2 launch realsense2_camera rs_launch.py depth_module.profile:=640x480x30
-    - Removed parameters **\<stream>_frame_id**, **\<stream>_optical_frame_id**. frame_ids are now defined by camera_name
-    - **"filters"** is removed. All filters (or post-processing blocks) are enabled/disabled using **"\<filter>.enable"**
-    - **"align_depth"** is now a regular processing block and as such the parameter for enabling it is replaced with **"align_depth.enable"**
-    - **"allow_no_texture_points"**, **"ordered_pc"** are now belong to the pointcloud filter and as such are replaced by **"pointcloud.allow_no_texture_points"**, **"pointcloud.ordered_pc"**
-    - **"pointcloud_texture_stream"**, **"pointcloud_texture_index"** belong now to the pointcloud filter and were renamed to match their librealsense' names: **"pointcloud.stream_filter"**, **"pointcloud.stream_index_filter"**
-- Allow enable/disable of sensors in runtime (parameters **\<stream>.enable**)
-- Allow enable/disable of filters in runtime (parameters **\<filter_name>.enable**)
-- **unite_imu_method** parameter is now changeable in runtime.
-- **enable_sync** parameter is now changeable in runtime.
+### Prerequisites
 
-</details>
-    
+First, please prepare the following environment before proceeding to the next installation stage.
 
-# Installation on Ubuntu
-  
-<details>
-  <summary>
-    Step 1: Install the ROS2 distribution 
-  </summary>
+| System  | Version |
+| ------------- | ------------- |
+| Ubuntu | 24.04 (Noble Numbat) |
+| ROS | Jazzy Jalisco |
+| LibRealSense2 | v2.57.6 |
 
-- #### Ubuntu 24.04:
-  - [ROS2 Kilted](https://docs.ros.org/en/kilted/Installation/Ubuntu-Install-Debs.html)
-  - [ROS2 Jazzy](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debians.html)
+> [!NOTE]
+> If you need to install `Ubuntu` or `ROS`, please check our [SOBITS Manual](https://github.com/TeamSOBITS/sobits_manual#%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6).
 
-- #### Ubuntu 22.04:
-  - [ROS2 Iron](https://docs.ros.org/en/iron/Installation/Ubuntu-Install-Debians.html)
-  - [ROS2 Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
-  #### Ubuntu 20.04
-	- [ROS2 Foxy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)
-</details>
-  
-<details>
-  <summary>
-    Step 2: Install latest RealSense&trade; SDK 2.0
-  </summary>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-  **Please choose only one option from the 3 options below (in order to prevent multiple versions installation and workspace conflicts)**
 
-- #### Option 1: Install librealsense2 debian package from RealSense servers
-  - Jetson users - use the [Jetson Installation Guide](https://github.com/realsenseai/librealsense/blob/master/doc/installation_jetson.md)
-  - Otherwise, install from [Linux Debian Installation Guide](https://github.com/realsenseai/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
-    - In this case treat yourself as a developer: make sure to follow the instructions to also install librealsense2-dev and librealsense2-dkms packages
-  
-- #### Option 2: Install librealsense2 (without graphical tools and examples) debian package from ROS servers (Foxy EOL distro is not supported by this option):
-  - [Configure](http://wiki.ros.org/Installation/Ubuntu/Sources) your Ubuntu repositories
-  - Install all realsense ROS packages by ```sudo apt install ros-<ROS_DISTRO>-librealsense2*```
-    - For example, for Humble distro: ```sudo apt install ros-humble-librealsense2*```
+### Installation
 
-- #### Option 3: Build from source
-  - Download the latest [RealSense&trade; SDK 2.0](https://github.com/realsenseai/librealsense)
-  - Follow the instructions under [Linux Installation](https://github.com/realsenseai/librealsense/blob/master/doc/installation.md)
-
-</details>
-  
-<details>
-  <summary>
-    Step 3: Install ROS Wrapper for RealSense&trade; cameras
-  </summary>
-  
-#### Option 1: Install debian package from ROS servers (Foxy EOL distro is not supported by this option):
-  - [Configure](http://wiki.ros.org/Installation/Ubuntu/Sources) your Ubuntu repositories
-  - Install all realsense ROS packages by ```sudo apt install ros-<ROS_DISTRO>-realsense2-*```
-  - For example, for Humble distro: ```sudo apt install ros-humble-realsense2-*```
-  
-#### Option 2: Install from source
-  
-  - Create a ROS2 workspace
-      ```bash
-      mkdir -p ~/ros2_ws/src
-      cd ~/ros2_ws/src/
+1. Go to the `src` folder of ROS.
+      ```sh
+      $ cd ~/colcon_ws/src/
       ```
-  
-  - Clone the latest ROS Wrapper for RealSense&trade; cameras from [here](https://github.com/realsenseai/realsense-ros.git) into '~/ros2_ws/src/'
-      ```bashrc
-      git clone https://github.com/realsenseai/realsense-ros.git -b ros2-master
-      cd ~/ros2_ws
-      ```
-  
-  - Install dependencies
-   ```bash
-   sudo apt-get install python3-rosdep -y
-   sudo rosdep init # "sudo rosdep init --include-eol-distros" for Foxy and earlier
-   rosdep update # "sudo rosdep update --include-eol-distros" for Foxy and earlier
-   rosdep install -i --from-path src --rosdistro $ROS_DISTRO --skip-keys=librealsense2 -y
-   ```
+2. Clone this repository.
+    ```sh
+    $ git clone https://github.com/TeamSOBITS/realsense_ros
+    ```
+3. Navigate into the repository.
+    ```sh
+    $ cd realsense_ros/
+    ```
+4. Install the dependent packages.
+    ```sh
+    $ bash install.sh
+    ```
 
-  - Build
-   ```bash
-   colcon build
-   ```
+> [!NOTE]
+> Running [install.sh](install.sh) will automatically install the required [RealSense&trade; SDK 2.0](https://github.com/realsenseai/librealsense).
 
-  -  Source environment
-   ```bash
-   ROS_DISTRO=<YOUR_SYSTEM_ROS_DISTRO>  # set your ROS_DISTRO: kilted, jazzy, iron, humble, foxy
-   source /opt/ros/$ROS_DISTRO/setup.bash
-   cd ~/ros2_ws
-   . install/local_setup.bash
-   ```
-  
-  </details>
+5. Compile the package.
+    ```sh
+    $ cd ~/colcon_ws/
+    $ sudo apt-get install python3-rosdep -y
+    $ sudo rosdep init
+    $ rosdep update
+    $ rosdep install -i --from-path src --rosdistro $ROS_DISTRO --skip-keys=librealsense2 -y
+    $ colcon build --symlink-install
+    $ source ~/colcon_ws/install/setup.sh
+    ```
 
-<hr>
-
-# Installation on Windows
-  **PLEASE PAY ATTENTION: ROS Wrapper for RealSense&trade; cameras is not meant to be supported on Windows by our team, since ROS2 and its packages are still not fully supported over Windows. We added these installation steps below in order to try and make it easier for users who already started working with ROS2 on Windows and want to take advantage of the capabilities of our RealSense cameras**
-
-<details>
-  <summary>
-    Step 1: Install the ROS2 distribution 
-  </summary>
-  
-- #### Windows 10/11
-
-  **Please choose only one option from the two options below (in order to prevent multiple versions installation and workspace conflicts)**
-  
-  - Manual install from ROS2 formal documentation:
-    - [ROS2 Kilted](https://docs.ros.org/en/kilted/Installation/Windows-Install-Binary.html)
-    - [ROS2 Jazzy](https://docs.ros.org/en/jazzy/Installation/Windows-Install-Binary.html)
-    - [ROS2 Iron](https://docs.ros.org/en/iron/Installation/Windows-Install-Binary.html)
-    - [ROS2 Humble](https://docs.ros.org/en/humble/Installation/Windows-Install-Binary.html)
-    - [ROS2 Foxy](https://docs.ros.org/en/foxy/Installation/Windows-Install-Binary.html)
-  - Microsoft IOT binary installation:
-    - https://ms-iot.github.io/ROSOnWindows/GettingStarted/SetupRos2.html
-    - Pay attention that the examples of install are for Foxy distro (which is not supported anymore by ROS Wrapper for RealSense&trade; cameras)
-	- Please replace the word "Foxy" with Humble, Iron, Jazzy or Kilted, depends on the chosen distro.
-</details>
-  
-<details>
-  <summary>
-    Step 2: Download RealSense&trade; ROS2 Wrapper and RealSense&trade; SDK 2.0 source code from github:
-  </summary>
-  
-- Download ROS Wrapper for RealSense&trade; cameras source code from [ROS Wrapper for RealSense&trade; cameras releases](https://github.com/realsenseai/realsense-ros/releases)
-- Download the corresponding supported RealSense&trade; SDK 2.0 source code from the **"Supported RealSense SDK" section** of the specific release you chose from the link above
-- Place the librealsense folder inside the realsense-ros folder, to make the librealsense package set beside realsense2_camera, realsense2_camera_msgs and realsense2_description packages
-</details>
-  
-<details>
-  <summary>
-    Step 3: Build
-  </summary>
-  
-1. Before starting building of our packages, make sure you have OpenCV for Windows installed on your machine. If you choose the Microsoft IOT way to install it, it will be installed automatically. Later, when colcon build, you might need to expose this installation folder by setting CMAKE_PREFIX_PATH, PATH, or OpenCV_DIR environment variables
-2. Run "x64 Native Tools Command Prompt for VS 2019" as administrator
-3. Setup ROS2 Environment (Do this for every new terminal/cmd you open):
-    - If you choose the Microsoft IOT Binary option for installation
-      ```
-	  > C:\opt\ros\humble\x64\setup.bat
-	  ```
-	
-    - If you choose the ROS2 formal documentation:
-      ```
-	  > call C:\dev\ros2_iron\local_setup.bat
-	  ```   
-4.  Change directory to realsense-ros folder
-      ```bash
-      > cd C:\ros2_ws\realsense-ros
-      ```
-5. Build librealsense2 package only
-      ```bash
-      > colcon build --packages-select librealsense2 --cmake-args -DBUILD_EXAMPLES=OFF -DBUILD_WITH_STATIC_CRT=OFF -DBUILD_GRAPHICAL_EXAMPLES=OFF
-      ```
-	  - User can add `--event-handlers console_direct+` parameter to see more debug outputs of the colcon build
-6. Build the other packages
-	```bash
-	> colcon build --packages-select realsense2_camera_msgs realsense2_description realsense2_camera
-	```
-	- User can add `--event-handlers console_direct+` parameter to see more debug outputs of the colcon build
-
-7. Setup environment with new installed packages (Do this for every new terminal/cmd you open):
-      ```bash
-      > call install\setup.bat
-      ```
-</details>
-
-<hr>
-
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 # ROS2 LifeCycleNode
@@ -1330,21 +1152,13 @@ For debugging purposes, users can control the ROS wrapper log level and also the
 </details>
 
 
-[rolling-badge]: https://img.shields.io/badge/-ROLLING-orange?style=flat-square&logo=ros
-[rolling]: https://docs.ros.org/en/rolling/index.html
-[kilted-badge]: https://img.shields.io/badge/-KILTED-orange?style=flat-square&logo=ros
-[kilted]: https://docs.ros.org/en/kilted/index.html
-[jazzy-badge]: https://img.shields.io/badge/-JAZZY-orange?style=flat-square&logo=ros
-[jazzy]: https://docs.ros.org/en/jazzy/index.html
-[foxy-badge]: https://img.shields.io/badge/-FOXY-orange?style=flat-square&logo=ros
-[foxy]: https://docs.ros.org/en/foxy/index.html
-[humble-badge]: https://img.shields.io/badge/-HUMBLE-orange?style=flat-square&logo=ros
-[humble]: https://docs.ros.org/en/humble/index.html
-[iron-badge]: https://img.shields.io/badge/-IRON-orange?style=flat-square&logo=ros
-[iron]: https://docs.ros.org/en/iron/index.html
-[ubuntu24-badge]: https://img.shields.io/badge/-UBUNTU%2024%2E04-blue?style=flat-square&logo=ubuntu&logoColor=white
-[ubuntu24]: https://releases.ubuntu.com/noble/
-[ubuntu22-badge]: https://img.shields.io/badge/-UBUNTU%2022%2E04-blue?style=flat-square&logo=ubuntu&logoColor=white
-[ubuntu22]: https://releases.ubuntu.com/jammy/
-[ubuntu20-badge]: https://img.shields.io/badge/-UBUNTU%2020%2E04-blue?style=flat-square&logo=ubuntu&logoColor=white
-[ubuntu20]: https://releases.ubuntu.com/focal/
+[contributors-shield]: https://img.shields.io/github/contributors/TeamSOBITS/realsense_ros.svg?style=for-the-badge
+[contributors-url]: https://github.com/TeamSOBITS/realsense_ros/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/TeamSOBITS/realsense_ros.svg?style=for-the-badge
+[forks-url]: https://github.com/TeamSOBITS/realsense_ros/network/members
+[stars-shield]: https://img.shields.io/github/stars/TeamSOBITS/realsense_ros.svg?style=for-the-badge
+[stars-url]: https://github.com/TeamSOBITS/realsense_ros/stargazers
+[issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/realsense_ros.svg?style=for-the-badge
+[issues-url]: https://github.com/TeamSOBITS/realsense_ros/issues
+[license-shield]: https://img.shields.io/github/license/TeamSOBITS/realsense_ros.svg?style=for-the-badge
+[license-url]: LICENSE
