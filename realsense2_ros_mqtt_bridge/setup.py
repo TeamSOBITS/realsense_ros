@@ -33,7 +33,11 @@ setup(
     maintainer_email='samer.khshiboun@intel.com',
     description='MQTT <-> ROS brdige for realsense2_camera node',
     license='Apache-2.0',
-    tests_require=['pytest'],
+    extras_require={
+        'test': [
+            'pytest',
+        ],
+    },
     entry_points={
         'console_scripts': [
             'realsense2_ros_mqtt_bridge = src.entry_point:main'
